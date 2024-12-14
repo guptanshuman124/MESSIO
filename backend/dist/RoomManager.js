@@ -31,9 +31,17 @@ class RoomManager {
                 ws.send(JSON.stringify({ error: `Room ${roomId} is full` }));
             }
             else {
+                // Add the new client to the room
                 clients.add(ws);
+                // Notify the new client
                 ws.send(JSON.stringify({ success: `Joined room ${roomId}` }));
                 console.log(`Client joined room ${roomId}`);
+                // Notify existing clients in the room that a new client has joined
+                clients.forEach(client => {
+                    if (client !== ws) { // Don't notify the client that just joined
+                        client.send(JSON.stringify({ success: `A new client has joined room ${roomId}` }));
+                    }
+                });
             }
         }
         else {
