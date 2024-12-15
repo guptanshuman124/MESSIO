@@ -22,9 +22,9 @@ wss.on('connection', function connection(ws) {
             }
             else if (action === "leave" && roomId) {
                 // Leave the room
-                roomManager.removeClient(ws); // Remove client from room
-                ws.send(JSON.stringify({ success: `Left room ${roomId}` })); // Send success message to client
                 console.log(`Client left room ${roomId}`);
+                roomManager.removeClient(ws); // Remove client from room
+                ws.send(JSON.stringify({ info: `Left room ${roomId}` })); // Send success message to client
             }
             else {
                 ws.send(JSON.stringify({ error: "Invalid action or missing roomId" }));
